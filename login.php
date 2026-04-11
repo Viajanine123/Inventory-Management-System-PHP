@@ -9,17 +9,24 @@ if (mysqli_connect_errno()) {
     die("Failed to connect with MySQL: " . mysqli_connect_error());
 }
 
-$email = $_POST['email'];
-$password = $_POST['password'];
+// Check if form was submitted first
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $email = $_POST['email'];
+    $password = $_POST['password'];
 
-$sql = "select * from user where email = '$email' and password = '$password'";
-$result = mysqli_query($con, $sql);
-$row = mysqli_fetch_array($result, MYSQLI_ASSOC);
-$count = mysqli_num_rows($result);
+    $sql = "SELECT * FROM user WHERE email = '$email' AND password = '$password'";
+    $result = mysqli_query($con, $sql);
+    $count = mysqli_num_rows($result);
 
-if ($count == 1) {
-    require("./table.php");
+    if ($count == 1) {
+        require("./table.php");
+    } else {
+        echo "<h1>Login Failed. Invalid email or password.</h1>";
+        echo "<a href='index.php'>Go Back</a>";
+    }
 } else {
-    echo "<h1> Login Failed.</h1>";
+    // Not submitted — redirect back to login page
+    header("Location: index.php");
+    exit;
 }
 ?>
