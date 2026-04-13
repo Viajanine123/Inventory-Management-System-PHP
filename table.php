@@ -372,7 +372,7 @@ $total_value = array_sum(array_map(fn($p) => $p['price'] * $p['quantity'], $prod
     </a>
 
     <div class="sidebar-bottom">
-        <a href="index.php">⏻ &nbsp;Logout</a>
+        <a href="?logout=1">⏻ &nbsp;Logout</a>
     </div>
 </aside>
 
