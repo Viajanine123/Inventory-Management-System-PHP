@@ -1,3 +1,15 @@
+<?php
+session_start();
+if (!isset($_SESSION['inventory_logged_in']) || !$_SESSION['inventory_logged_in']) {
+    header("Location: index.php");
+    exit;
+}
+if (isset($_GET['logout'])) {
+    session_destroy();
+    header("Location: index.php");
+    exit;
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>

@@ -1,4 +1,5 @@
 <?php
+session_start();
 $host = "localhost";
 $user = "root";
 $password = '';
@@ -9,23 +10,23 @@ if (mysqli_connect_errno()) {
     die("Failed to connect with MySQL: " . mysqli_connect_error());
 }
 
-// Check if form was submitted first
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $email = $_POST['email'];
-    $password = $_POST['password'];
+    $pass  = $_POST['password'];
 
-    $sql = "SELECT * FROM user WHERE email = '$email' AND password = '$password'";
+    $sql    = "SELECT * FROM user WHERE email = '$email' AND password = '$pass'";
     $result = mysqli_query($con, $sql);
-    $count = mysqli_num_rows($result);
+    $count  = mysqli_num_rows($result);
 
     if ($count == 1) {
-        require("./table.php");
+        $_SESSION['inventory_logged_in'] = true;
+        header("Location: table.php");
+        exit;
     } else {
-        echo "<h1>Login Failed. Invalid email or password.</h1>";
-        echo "<a href='index.php'>Go Back</a>";
+        header("Location: index.php?error=1");
+        exit;
     }
 } else {
-    // Not submitted — redirect back to login page
     header("Location: index.php");
     exit;
 }
